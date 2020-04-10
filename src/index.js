@@ -6,6 +6,8 @@ const morgan = require('morgan');
 require('./db/db')
 
 const userRouter = require('./routers/user')
+const phaseRouter = require('./routers/phases')
+const surveyRouter = require('./routers/surveys')
 const port = process.env.PORT
 
 // defining the Express app
@@ -25,6 +27,8 @@ app.use(morgan('combined'));
 
 // adding routers
 app.use(userRouter);
+app.use(phaseRouter);
+app.use(surveyRouter);
 
 // start the server
 app.listen(port, async () => {

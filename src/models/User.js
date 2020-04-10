@@ -56,7 +56,7 @@ const userSchema = mongoose.Schema({
     type: Number,
     min: 0,
     max: 1000,
-    unit: "kg",
+    unit: "cm",
     required: false
   },
   // BMI as a boolean? We can just calculate the BMI based on weight and height

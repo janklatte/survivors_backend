@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const symptomsSchema = mongoose.Schema({
   fever: { type: Boolean },
@@ -60,4 +61,4 @@ const phaseSchema = mongoose.Schema({
 // Since the phases are successively we only need to log the beginning
 // of a phase ("time" attribute)
 const Phase = mongoose.model('Phase', phaseSchema);
-module.exports = Phases;
+module.exports = Phase;
