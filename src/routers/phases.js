@@ -11,7 +11,12 @@ router.put('/phases/me', auth, async (req, res) => {
   try {
     const filter = { assigned_to_user: req.user._id };
     let update = req.body;
-    update.time = new Date(); // current date time
+    if (!req.body.time) {
+      update.time = new Date(); // current date time
+    }
+    else {
+      update.time = req.body.time
+    }
 
     let updated_phase = await Phase.findOneAndUpdate(filter, update, {
       new: true,

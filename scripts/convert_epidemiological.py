@@ -4,12 +4,6 @@ import names
 import requests
 import json
 
-file_path = "~/survivors-viz/data/epidemiological.csv"
-server_url = "http://localhost:3001/"
-#server_url = "https://hackcorona-survivors-server.herokuapp.com/"
-
-df = pd.read_csv(file_path)
-
 def parse_n_y(y_n_str):
   return "true" if y_n_str == 'Y' else "false"
 
@@ -54,7 +48,14 @@ def parser_user(df_user):
   r = requests.post(server_url + 'users', json=req_body)
   print(r.json())
 
-for i in range(0, df.shape[0]):
-  parser_user(df.iloc[i])
+if __name__ == "__main__":  
+  file_path = "~/survivors-viz/data/epidemiological.csv"
+  server_url = "http://localhost:3001/"
+  #server_url = "https://hackcorona-survivors-server.herokuapp.com/"
+
+  df = pd.read_csv(file_path)
+  
+  for i in range(0, df.shape[0]):
+    parser_user(df.iloc[i])
 
 #print(df)

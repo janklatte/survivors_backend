@@ -33,7 +33,12 @@ router.post('/survey_questions', auth, async(req, res) => {
   try {
     let survey_body = req.body;
     survey_body.assigned_to_user = req.user._id;
-    survey_body.time = new Date();
+    if (!req.body.time) {
+      survey_body.time = new Date(); // current date time
+    }
+    else {
+      survey_body.time = req.body.time
+    }
 
     const survey = new SurveyQuestions(survey_body);
     await survey.save()
@@ -50,7 +55,12 @@ router.post('/survey_symptoms', auth, async(req, res) => {
   try {
     let survey_body = req.body;
     survey_body.assigned_to_user = req.user._id;
-    survey_body.time = new Date();
+    if (!req.body.time) {
+      survey_body.time = new Date(); // current date time
+    }
+    else {
+      survey_body.time = req.body.time
+    }
 
     const survey = new SurveySymptoms(survey_body);
     await survey.save()
