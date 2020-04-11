@@ -12,9 +12,9 @@ const userSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    require: false,
     unique: true,
     lowercase: true,
+    sparse: true,
     validate: value => {
       if (!validator.isEmail(value)) {
         throw new Error({error: 'Invalid Email address'});
@@ -34,6 +34,14 @@ const userSchema = mongoose.Schema({
   }],
 
   // Demographic Data
+  country: {
+    type: String,
+    required: false
+  },
+  zipcode: {
+    type: Number,
+    required: false
+  },
   gender: {
     type: String,
     enum: ["m", "f"],
@@ -44,6 +52,22 @@ const userSchema = mongoose.Schema({
     min: 0,
     max: 120,
     required: false
+  },
+  educational_status: {
+    type: String,
+    enum: ['Primary', 'Secondary', 'Tertiary', 'Other']
+  },
+  material_status: {
+    type: String,
+    enum: ['Single', 'Married', 'Divorced', 'Widowed', 'Other']
+  },
+  living_status: {
+    type: String,
+    enum: ['Alone', 'Family', 'Shared', 'Other']
+  },
+  employment_status: {
+    type: String,
+    enum: ['unemployed', 'retired', 'employed','self-employed', 'other']
   },
   weight: {
     type: Number,
