@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const userSchema = mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -21,10 +21,22 @@ const userSchema = mongoose.Schema({
       }
     }
   },
+  name: {
+    type: String,
+    required: false
+  },
   password: {
     type: String,
     required: true,
     minLength: 7
+  },
+  createDate: {
+    type: Date,
+    required: false
+  },
+  updatedDate: {
+    type: Date,
+    required: false
   },
   tokens: [{
     token: {
@@ -32,111 +44,12 @@ const userSchema = mongoose.Schema({
       required: true
     }
   }],
-
-  // Demographic Data
-  country: {
+  geneticGender: {
     type: String,
     required: false
   },
-  zipcode: {
-    type: Number,
-    required: false
-  },
-  gender: {
-    type: String,
-    enum: ["m", "f"],
-    required: false
-  },
-  age: {
-    type: Number,
-    min: 0,
-    max: 120,
-    required: false
-  },
-  educational_status: {
-    type: String,
-    enum: ['Primary', 'Secondary', 'Tertiary', 'Other']
-  },
-  material_status: {
-    type: String,
-    enum: ['Single', 'Married', 'Divorced', 'Widowed', 'Other']
-  },
-  living_status: {
-    type: String,
-    enum: ['Alone', 'Family', 'Shared', 'Other']
-  },
-  employment_status: {
-    type: String,
-    enum: ['unemployed', 'retired', 'employed','self-employed', 'other']
-  },
-  weight: {
-    type: Number,
-    min: 0,
-    max: 1000,
-    unit: "kg",
-    required: false
-  },
-  height: {
-    type: Number,
-    min: 0,
-    max: 1000,
-    unit: "cm",
-    required: false
-  },
-  // BMI as a boolean? We can just calculate the BMI based on weight and height
-  smoking: {
-    type: Boolean,
-    required: false
-  },
-  // Chronic Diseases (cd)
-  cd_diabetes: {
-    type: Number,
-    enum: [0, 1, 2], // Corresponds to no diabetis or type 1/2
-    required: false
-  },
-  cd_hypertension: {
-    type: Boolean,
-    required: false
-  },
-  cd_copd: {
-    type: Boolean,
-    required: false
-  },
-  cd_autoimmune: {
-    type: Boolean,
-    required: false
-  },
-  cd_endocrine: {
-    type: Boolean,
-    required: false
-  },
-  cd_other: {
-    type: String,
-    required: false
-  },
-  // History (h) of ...
-  h_cardiovascular: {
-    type: String,
-    required: false
-  },
-  h_cancer: {
-    type: String,
-    required: false
-  },
-  h_asthma: {
-    type: String,
-    required: false
-  },
-  h_sev_allergy: {
-    type: String,
-    required: false
-  },
-  h_rheumatic_fever: {
-    type: String,
-    required: false
-  },
-  h_depression: {
-    type: String,
+  dateOfBirth: {
+    type: Date,
     required: false
   }
 });
@@ -159,9 +72,9 @@ userSchema.methods.generateAuthToken = async function() {
   return token;
 }
 
-userSchema.statics.findByCredentials = async (name, password) => {
-  // Search for user by name and password
-  const user = await User.findOne({ name });
+userSchema.statics.findByCredentials = async (username, password) => {
+  // Search for user by username and password
+  const user = await User.findOne({ username });
   console.log(user);
   if (!user) {
     throw new Error({ error: 'Invalid login credentials (User)' });

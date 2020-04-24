@@ -1,8 +1,8 @@
 const express = require('express')
 const Question = require('../models/Question')
 const Symptom = require('../models/Symptom')
-const SurveyQuestions = require('../models/SurveyQuestions')
-const SurveySymptoms = require('../models/SurveySymptoms')
+const SurveyQuestions = require('../models/SurveyQuestionsV2')
+const SurveySymptoms = require('../models/SurveySymptomsV2')
 const auth = require('../middleware/auth')
 
 const router = express.Router();
@@ -33,11 +33,11 @@ router.post('/survey_questions', auth, async(req, res) => {
   try {
     let survey_body = req.body;
     survey_body.assigned_to_user = req.user._id;
-    if (!req.body.time) {
-      survey_body.time = new Date(); // current date time
+    if (!req.body.dateAdded) {
+      survey_body.dateAdded = new Date(); // current date time
     }
     else {
-      survey_body.time = req.body.time
+      survey_body.dateAdded = req.body.dateAdded
     }
 
     const survey = new SurveyQuestions(survey_body);
@@ -55,11 +55,11 @@ router.post('/survey_symptoms', auth, async(req, res) => {
   try {
     let survey_body = req.body;
     survey_body.assigned_to_user = req.user._id;
-    if (!req.body.time) {
-      survey_body.time = new Date(); // current date time
+    if (!req.body.dateAdded) {
+      survey_body.dateAdded = new Date(); // current date time
     }
     else {
-      survey_body.time = req.body.time
+      survey_body.dateAdded = req.body.dateAdded
     }
 
     const survey = new SurveySymptoms(survey_body);

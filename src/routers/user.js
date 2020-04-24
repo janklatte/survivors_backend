@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/User')
+const UserAttributes = require('../models/UserAttributes')
 const auth = require('../middleware/auth')
 
 const router = express.Router();
@@ -38,11 +39,24 @@ router.put('/users/me', auth, async (req, res) => {
   }
 });
 
+router.post('/users/me/attributes', auth, async (req, res) => {
+  try {
+    let user_attributes = new UserAttributes(req.body);
+    user_attributes.userId = req.user._id;
+    user_attributes.dateAdded = new Date();
+    await user_attributes.save();
+    res.status(201).send(user_attributes);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
 router.post('/users/login', async(req, res) => {
   // Login a registered User
   try {
-    const { name, password } = req.body;
-    const user = await User.findByCredentials(name, password);
+    const { username, password } = req.body;
+    const user = await User.findByCredentials(username, password);
     if (!user) {
       return res.status(401).send({error: 'Login failed!'});
     }
